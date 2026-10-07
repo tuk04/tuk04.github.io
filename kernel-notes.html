@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Into the Core: Linux Kernel Notes</title>
+    <style>
+        body { font-family: system-ui, sans-serif; line-height: 1.6; max-width: 800px; margin: 0 auto; padding: 2rem; }
+        h1, h2, h3 { color: #333; }
+        a { color: #0366d6; text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        .nav { margin-bottom: 2rem; font-size: 0.9rem; }
+        .note-entry { margin-bottom: 2rem; padding: 1.5rem; border-left: 4px solid #0366d6; background: #f6f8fa; }
+        .date-badge { display: inline-block; background: #333; color: white; padding: 0.2rem 0.6rem; border-radius: 3px; font-size: 0.85rem; font-weight: bold; margin-bottom: 1rem; }
+        code { background: #e1e4e8; padding: 0.2em 0.4em; border-radius: 3px; font-size: 0.9em; font-family: monospace; }
+        ul, ol { margin-top: 0.5rem; }
+        li { margin-bottom: 0.5rem; }
+        .subtitle { color: #666; font-style: italic; margin-top: -1rem; margin-bottom: 2rem; }
+    </style>
+</head>
+<body>
+    <div class="nav">
+        &larr; <a href="index.html">Back to Portfolio</a>
+    </div>
+
+    <h1>Into the Core: Linux Kernel Notes</h1>
+    <p class="subtitle">Pure knowledge, no AI slop.</p>
+
+    <div class="note-entry">
+        <div class="date-badge">Day 1: Memory Addressing</div>
+        
+        <h3>1. Types of Memory Addresses</h3>
+        <ul>
+            <li><strong>Logical Address:</strong> A segmented memory address used by the older Intel 80x86 processor architecture. It consists of a segment and an offset.</li>
+            <li><strong>Linear Address (Virtual Address):</strong> A single 32-bit unsigned integer that can address up to 4 GB (up to 4,294,967,296 memory cells).</li>
+            <li><strong>Physical Address:</strong> Used to address memory cells directly in RAM chips.</li>
+        </ul>
+        <p><em>Note:</em> The Memory Management Unit (MMU) translates a logical address into a linear address. The Paging Unit translates a linear address into a physical address.</p>
+
+        <h3>2. Memory Arbiter</h3>
+        <ul>
+            <li>In multiprocessor systems, multiple processors usually share the same memory. A hardware circuit called a memory arbiter is inserted between the bus and every RAM chip.</li>
+            <li>Its role is to grant access to a CPU if the chip is free, and to delay access if the chip is currently busy servicing a request from another processor.</li>
+            <li>This arbiter is used even in single-processor systems to handle Direct Memory Access (DMA) conflicts.</li>
+        </ul>
+
+        <h3>3. Deep Dive: Logical Addresses & Segmentation</h3>
+        <p>A logical address consists of two parts: a <strong>segment identifier (segment selector)</strong> and an <strong>offset</strong>.</p>
+        <p>To retrieve segment selectors quickly, the processor provides dedicated segmentation registers. There are six primary registers: <code>cs</code>, <code>ss</code>, <code>ds</code>, <code>es</code>, <code>fs</code>, and <code>gs</code>.</p>
+        <ul>
+            <li><code>cs</code> (Code Segment): Points to a segment containing program instructions.</li>
+            <li><code>ss</code> (Stack Segment): Points to a segment containing the current program stack.</li>
+            <li><code>ds</code> (Data Segment): Points to a segment containing global and static data.</li>
+            <li>The remaining three (<code>es</code>, <code>fs</code>, <code>gs</code>) are general-purpose registers.</li>
+        </ul>
+        <p><strong>Crucial <code>cs</code> Register Detail:</strong> The <code>cs</code> register has another important function. It includes a 2-bit field that specifies the Current Privilege Level (CPL) of the CPU. Linux only utilizes levels 0 and 3, which are referred to as <strong>Kernel Mode</strong> and <strong>User Mode</strong>, respectively.</p>
+    </div>
+
+    <!-- Future notes can be added below this line using the .note-entry template -->
+
+</body>
+</html>
